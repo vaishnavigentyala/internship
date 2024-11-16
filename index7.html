@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-Time Financial Data</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            padding: 20px;
+            background-color: #fefff9;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #e5e5c9;
+            padding: 50px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+            font-size: 40px;
+        }
+        P{
+          font-size: 20PX;
+        }
+        input{
+          width: 200px;
+          height: 25px;
+          background-color: white;
+        }
+        button{
+          width: 150px;
+          height:30px ;
+          background-color: white;
+        }
+        .stock-info {
+            font-size: 20px;
+            margin-top: 20px;
+        }
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Real-Time Stock Data</h1>
+    <p>Enter a stock symbol (e.g., AAPL for Apple, MSFT for Microsoft) to get the real-time stock data.</p>
+    
+    <input type="text" id="symbol" placeholder="Enter Stock Symbol (e.g., AAPL)">
+    <button onclick="getStockData()">Get Stock Data</button>
+
+    <div id="stock-data" class="stock-info"></div>
+    <div id="error-message" class="error"></div>
+</div>
+
+<script>
+    
+    const apiKey = 'YOUR_API_KEY';
+
+    
+    async function getStockData() {
+        const symbol = document.getElementById('symbol').value.toUpperCase();
+        const stockDataDiv = document.getElementById('stock-data');
+        const errorMessageDiv = document.getElementById('error-message');
+        
+        if (!symbol) {
+            errorMessageDiv.textContent = "Please enter a stock symbol.";
+            stockDataDiv.innerHTML = '';
+            return;
+        }
+
+        
+        errorMessageDiv.textContent = '';
+        stockDataDiv.innerHTML = 'Loading...';
+
+        try {
+            
+            const url = `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${symbol}&interval=5min&apikey=${apiKey}`;
+
+            
+            const response = await fetch(url);
+            const data = await response.json();
+
+            
+            if (data['Error Message'] || !data['Time Series (5min)']) {
+                throw new Error('Invalid stock symbol or API limit reached.');
+            }
+
+           
+            const timeSeries = data['Time Series (5min)'];
+            const latestTimestamp = Object.keys(timeSeries)[0];
+            const latestData = timeSeries[latestTimestamp];
+
+            
+            stockDataDiv.innerHTML = `
+                <strong>Stock Symbol:</strong> ${symbol}<br>
+                <strong>Timestamp:</strong> ${latestTimestamp}<br>
+                <strong>Open:</strong> $${latestData['1. open']}<br>
+                <strong>High:</strong> $${latestData['2. high']}<br>
+                <strong>Low:</strong> $${latestData['3. low']}<br>
+                <strong>Close:</strong> $${latestData['4. close']}<br>
+                <strong>Volume:</strong> ${latestData['5. volume']}<br>
+            `;
+        } catch (error) {
+           
+            stockDataDiv.innerHTML = '';
+            errorMessageDiv.textContent = error.message;
+        }
+    }
+</script>
+
+</body>
+</html>

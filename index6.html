@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Quiz</title>
+    <link rel="stylesheet" href="style6.css">
+</head>
+<body>
+    <div id="quiz-container">
+        <h1>Interactive Quiz</h1>
+        <div id="question-container">
+            <p id="question">Question goes here</p>
+            <button class="answer-button" onclick="selectAnswer(0)">Answer 1</button>
+            <button class="answer-button" onclick="selectAnswer(1)">Answer 2</button>
+            <button class="answer-button" onclick="selectAnswer(2)">Answer 3</button>
+            <button class="answer-button" onclick="selectAnswer(3)">Answer 4</button>
+        </div>
+        <div id="score-container">
+            <p>Your score: <span id="score">0</span></p>
+        </div>
+        <button id="next-btn" onclick="nextQuestion()">Next Question</button>
+    </div>
+    <script src="script6.js"></script>
+</body>
+</html>
