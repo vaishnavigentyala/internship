@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    .controls {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px;
+    }
+    .product-card {
+      border: 3px solid #ddd;
+      padding: 15px;
+      border-radius: 5px;
+      text-align: center;
+    }
+    .product-card h3 {
+      margin: 10px 0;
+    }
+    .price, .rating {
+      margin: 5px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="controls">
+    <div>
+      <label for="category">Filter by Category:</label>
+      <select id="category">
+        <option value="all">All</option>
+        <option value="electronics">Electronics</option>
+        <option value="clothing">Clothing</option>
+        <option value="home">Home</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="sort">Sort by:</label>
+      <select id="sort">
+        <option value="rating">Rating (High to Low)</option>
+        <option value="priceLow">Price (Low to High)</option>
+        <option value="priceHigh">Price (High to Low)</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="product-grid" id="product-grid">
+    <!-- Products will be dynamically added here -->
+  </div>
+
+  <script src="script10.js"></script>
+</body>
+</html>
